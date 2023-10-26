@@ -20,6 +20,11 @@ async function writeToLog(data, code){
         logCode.description = data.message
         delete data.shelldueName
     }
+    if (logCode.description.indexOf('{roomName}') && data.roomName !== undefined){
+        data.message = logCode.description.replace('{roomName}', data.roomName);
+        logCode.description = data.message
+        delete data.roomName
+    }
     data.codeId = logCode.id
     console.log(data)
     const eLog = await db.EventLog.create({
