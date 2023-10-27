@@ -41,11 +41,10 @@ model Data {
 }
 
 model DefaultScripts {
-  id          String     @id @unique
-  deviceId    String
-  script      Json
-  description String?
-  DeviceType  DeviceType @relation(fields: [deviceId], references: [id])
+  id                          String                        @id @unique
+  script                      Json
+  description                 String?
+  DeviceTypesAtDefaultScripts DeviceTypesAtDefaultScripts[]
 }
 
 model DeviceGroup {
@@ -57,19 +56,19 @@ model DeviceGroup {
 }
 
 model DeviceType {
-  id                 String               @id @unique
-  name               String               @db.VarChar(255)
-  code               String?              @unique
-  iconId             String?
-  category           deviceCategory?
-  frontView          Json?
-  commands           Json?
-  DefaultScripts     DefaultScripts[]
-  Icon               Icon?                @relation(fields: [iconId], references: [id])
-  DeviceTypesAtGroup DeviceTypesAtGroup[]
-  Sensor             Sensor[]
-  Station            Station[]
-  Version            Version[]
+  id                          String                        @id @unique
+  name                        String                        @db.VarChar(255)
+  code                        String?                       @unique
+  iconId                      String?
+  category                    deviceCategory?
+  frontView                   Json?
+  commands                    Json?
+  Icon                        Icon?                         @relation(fields: [iconId], references: [id])
+  DeviceTypesAtDefaultScripts DeviceTypesAtDefaultScripts[]
+  DeviceTypesAtGroup          DeviceTypesAtGroup[]
+  Sensor                      Sensor[]
+  Station                     Station[]
+  Version                     Version[]
 }
 
 model DeviceTypesAtGroup {
@@ -103,7 +102,7 @@ model EventLog {
   Sensor     Sensor?   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   Shelldue   Shelldue? @relation(fields: [shelldueId], references: [id], onDelete: Cascade)
   Station    Station?  @relation(fields: [stationId], references: [id], onDelete: Cascade)
-  User       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Icon {
@@ -206,8 +205,12 @@ model Shelldue {
   runtimeStart        DateTime?             @db.Time(6)
   success             Boolean[]
   lastSuccess         Boolean[]
+  duration            BigInt?
+  stage               Int                   @default(0)
+  activeDays          Int[]
   EventLog            EventLog[]
   User                User                  @relation(fields: [userId], references: [id])
+  ShellduesChainLink  ShellduesChainLink[]
   ShellduesOnStations ShellduesOnStations[]
 }
 
@@ -310,6 +313,23 @@ model Version {
   SensorSettings  SensorSettings[]
   StationSettings StationSettings[]
   DeviceType      DeviceType        @relation(fields: [deviceId], references: [id])
+}
+
+model DeviceTypesAtDefaultScripts {
+  id              String         @id @unique
+  deviceTypeId    String
+  defaultScriptId String
+  DefaultScripts  DefaultScripts @relation(fields: [defaultScriptId], references: [id])
+  DeviceType      DeviceType     @relation(fields: [deviceTypeId], references: [id])
+}
+
+model ShellduesChainLink {
+  id         String   @id @unique
+  name       String
+  shelldueId String
+  number     Int
+  action     Json
+  Shelldue   Shelldue @relation(fields: [shelldueId], references: [id], onDelete: Cascade)
 }
 
 enum ShelldueType {
