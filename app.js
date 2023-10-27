@@ -5,7 +5,6 @@ app.use(express.json());
 const {writeToLog} = require('./utils')
 app.post("/:code", async (req, res)=>{
     try{
-        console.log(req.body)
         writeToLog(req.body.data, req.params.code)
         res.json("done")
     }

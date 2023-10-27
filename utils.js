@@ -26,7 +26,6 @@ async function writeToLog(data, code){
         delete data.roomName
     }
     data.codeId = logCode.id
-    console.log(data)
     const eLog = await db.EventLog.create({
         data:data
     })
