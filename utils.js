@@ -3,12 +3,12 @@ const { PrismaClient } = require('@prisma/client');
 const db = new PrismaClient();
 
 async function writeToLog(data, code){
-
     const logCode = await db.EventCode.findUnique({
         where:{
             code: Number(code)
         }
     })
+    console.log(logCode)
     data.message = logCode.description
     if (logCode.description.indexOf('{sensorName}') && data.sensorName !== undefined){
         data.message = logCode.description.replace('{sensorName}', data.sensorName);
