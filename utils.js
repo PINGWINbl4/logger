@@ -8,7 +8,6 @@ async function writeToLog(data, code){
             code: Number(code)
         }
     })
-    console.log(logCode)
     data.message = logCode.description
     if (logCode.description.indexOf('{sensorName}') && data.sensorName !== undefined){
         data.message = logCode.description.replace('{sensorName}', data.sensorName);
