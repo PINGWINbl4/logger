@@ -23,9 +23,8 @@ async function writeToLog(dataToLog, code){
             delete dataToLog[substring]
         }
     })
-    console.log(lastSensorData)
-    const lastSensorDataKeys = Object.keys(lastSensorData) 
-    lastSensorDataKeys.value.forEach(field=>{
+    const lastSensorDataKeys = Object.keys(lastSensorData.value) 
+    lastSensorDataKeys.forEach(field=>{
         if (logCode.description.indexOf(`{${field}}`)){
             dataToLog.message = logCode.description.replace(`{${field}}`, lastSensorData.value[field]);
             logCode.description = dataToLog.message
