@@ -24,6 +24,7 @@ async function writeToLog(dataToLog, code){
         }
     })
     const lastSensorDataKeys = Object.keys(lastSensorData.value) 
+    console.log(lastSensorData)
     lastSensorDataKeys.forEach(field=>{
         if (logCode.description.indexOf(`{${field}}`)){
             dataToLog.message = logCode.description.replace(`{${field}}`, lastSensorData.value[field]);
@@ -34,6 +35,7 @@ async function writeToLog(dataToLog, code){
     const eLog = await db.EventLog.create({
         data:dataToLog
     })
+    console.log("done")
     return eLog
 }
 
