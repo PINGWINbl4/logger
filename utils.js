@@ -5,12 +5,6 @@ const db = new PrismaClient();
 async function writeToLog(dataToLog, code){
     console.log(dataToLog)
     console.log(code)
-    const sensor = await db.sensor.findUnique({
-      where:{
-        id: data.sensorId
-      }  
-    })
-    console.log(sensor)
     const logCode = await db.EventCode.findUnique({
         where:{
             code: Number(code)
