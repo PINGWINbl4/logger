@@ -3,16 +3,12 @@ const { PrismaClient } = require('@prisma/client');
 const db = new PrismaClient();
 
 async function writeToLog(dataToLog, code){
-    console.log(dataToLog)
-    console.log(code)
+    if(!code){
+        throw new Error('req havent logCode')
+    }
     const logCode = await db.EventCode.findUnique({
         where:{
             code: Number(code)
-        }
-    })
-    const lastSensorData = await db.data.findUnique({
-        where:{
-            id: dataToLog.dataId
         }
     })
     dataToLog.message = logCode.description
@@ -25,14 +21,21 @@ async function writeToLog(dataToLog, code){
             delete dataToLog[substring]
         }
     })
-    const lastSensorDataKeys = Object.keys(lastSensorData.value) 
-    console.log(lastSensorData)
-    lastSensorDataKeys.forEach(field=>{
-        if (logCode.description.indexOf(`{${field}}`)){
-            dataToLog.message = logCode.description.replace(`{${field}}`, lastSensorData.value[field]);
-            logCode.description = dataToLog.message
-        }
-    })
+    if(dataToLog.dataId){
+        const lastSensorData = await db.data.findUnique({
+            where:{
+                id: dataToLog.dataId
+            }
+        })
+        const lastSensorDataKeys = Object.keys(lastSensorData.value) 
+        console.log(lastSensorData)
+        lastSensorDataKeys.forEach(field=>{
+            if (logCode.description.indexOf(`{${field}}`)){
+                dataToLog.message = logCode.description.replace(`{${field}}`, lastSensorData.value[field]);
+                logCode.description = dataToLog.message
+            }
+        })
+    }
     dataToLog.codeId = logCode.id
     const eLog = await db.EventLog.create({
         data:dataToLog
