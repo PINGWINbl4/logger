@@ -21,7 +21,7 @@ async function writeToLog(dataToLog, code){
         console.log(`${substring} is into dataToLog ${Boolean(dataToLog[substring])}`)
         if (logCode.description.indexOf(`{${substring}}`) && dataToLog[substring] !== undefined){
             logCode.description = logCode.description.replace(`{${substring}}`, dataToLog[substring]);
-            console.log(dataToLog[substring])
+            console.log('i am into if')
             delete dataToLog[substring]
         }
     })
