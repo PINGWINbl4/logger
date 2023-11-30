@@ -26,6 +26,7 @@ async function writeToLog(dataToLog, code){
             delete dataToLog[substring]
         }
     })
+    dataToLog.message = logCode.description
     if(dataToLog.dataId){
         const lastSensorData = await db.data.findUnique({
             where:{
