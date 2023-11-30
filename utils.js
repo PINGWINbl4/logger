@@ -13,14 +13,9 @@ async function writeToLog(dataToLog, code){
     })
     dataToLog.message = logCode.description
 
-    console.log(dataToLog)
-    console.log(logCode)
     const substringsToChange = ['sensorName','shelldueName','roomName']
     substringsToChange.forEach(substring =>{
-        console.log(substring)
-        console.log(`${substring} is into message ${Boolean(logCode.description.indexOf(`{${substring}}`))}`)
-        console.log(`${substring} is into dataToLog ${Boolean(dataToLog[substring])}`)
-        console.log(dataToLog[substring])
+
         if (logCode.description.indexOf(`{${substring}}`) && dataToLog[substring] !== undefined){
             logCode.description = logCode.description.replace(`{${substring}}`, dataToLog[substring]);
             delete dataToLog[substring]
@@ -46,7 +41,7 @@ async function writeToLog(dataToLog, code){
         data:dataToLog
     })
     console.log(eLog.message)
-    console.log("done")
+    console.log("writen")
 }
 
 module.exports = {
