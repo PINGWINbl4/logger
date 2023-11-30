@@ -14,6 +14,7 @@ async function writeToLog(dataToLog, code){
     dataToLog.message = logCode.description
 
     console.log(dataToLog)
+    console.log(logCode)
     const substringsToChange = ['sensorName','shelldueName','roomName']
     substringsToChange.forEach(substring =>{
         console.log(substring)
