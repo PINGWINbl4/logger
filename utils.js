@@ -43,7 +43,6 @@ async function writeToLog(dataToLog, code){
     })
     console.log("done")
 }
-    return eLog
 
 module.exports = {
     writeToLog
