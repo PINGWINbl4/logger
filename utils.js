@@ -16,8 +16,9 @@ async function writeToLog(dataToLog, code){
     console.log(dataToLog)
     const substringsToChange = ['sensorName','shelldueName','roomName']
     substringsToChange.forEach(substring =>{
-        console.log(logCode.description.indexOf(`{${substring}}`))
+        console.log(Boolean(logCode.description.indexOf(`{${substring}}`)))
         console.log(dataToLog[substring])
+        console.log(substring)
         if (logCode.description.indexOf(`{${substring}}`) && dataToLog[substring] !== undefined){
             logCode.description = logCode.description.replace(`{${substring}}`, dataToLog[substring]);
             console.log(dataToLog[substring])
@@ -42,6 +43,7 @@ async function writeToLog(dataToLog, code){
     const eLog = await db.EventLog.create({
         data:dataToLog
     })
+    console.log(eLog.message)
     console.log("done")
 }
 
