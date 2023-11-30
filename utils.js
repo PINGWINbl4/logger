@@ -19,9 +19,9 @@ async function writeToLog(dataToLog, code){
         console.log(substring)
         console.log(`${substring} is into message ${Boolean(logCode.description.indexOf(`{${substring}}`))}`)
         console.log(`${substring} is into dataToLog ${Boolean(dataToLog[substring])}`)
+        console.log(dataToLog[substring])
         if (logCode.description.indexOf(`{${substring}}`) && dataToLog[substring] !== undefined){
             logCode.description = logCode.description.replace(`{${substring}}`, dataToLog[substring]);
-            logCode.description = dataToLog.message
             delete dataToLog[substring]
         }
     })
