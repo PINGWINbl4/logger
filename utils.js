@@ -41,7 +41,13 @@ async function writeToLog(dataToLog, code){
         data:dataToLog
     })
     console.log(eLog.message)
-    console.log("writen")
+    const user = await db.User.findUnique({
+        where:{
+            id: dataToLog.userId
+        }
+    })
+
+    console.log(`User ${user.email} can see it soon`)
 }
 
 module.exports = {
