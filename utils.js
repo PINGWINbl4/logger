@@ -18,9 +18,8 @@ async function writeToLog(dataToLog, code){
     const substringsToChange = ['sensorName','shelldueName','roomName']
     substringsToChange.forEach(substring =>{
         if (logCode.description.indexOf(`{${substring}}`) && dataToLog[substring] != undefined){
-            logCode.description.replace(`{${substring}}`, dataToLog[substring]);
+            dataToLog.message = logCode.description.replace(`{${substring}}`, dataToLog[substring]);
             console.log(logCode.description.replace(`{${substring}}`, dataToLog[substring]))
-            dataToLog.message = logCode.description 
             console.log(dataToLog.message)
             delete dataToLog[substring]
         }
