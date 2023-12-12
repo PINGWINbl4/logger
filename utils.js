@@ -18,7 +18,8 @@ async function writeToLog(dataToLog, code){
     const substringsToChange = ['sensorName','shelldueName','roomName']
     substringsToChange.forEach(substring =>{
         if (logCode.description.indexOf(`{${substring}}`) && dataToLog[substring] != undefined){
-            dataToLog.message = logCode.description.replace(`{${substring}}`, dataToLog[substring]);
+            logCode.description = logCode.description.replace(`{${substring}}`, dataToLog[substring]);
+            console.log(dataToLog.message)
             delete dataToLog[substring]
         }
     })
@@ -32,12 +33,12 @@ async function writeToLog(dataToLog, code){
         const lastSensorDataKeys = Object.keys(lastSensorData.value) 
         lastSensorDataKeys.forEach(field=>{
             if (logCode.description.indexOf(`{${field}}`)){
-                dataToLog.message = logCode.description.replace(`{${field}}`, lastSensorData.value[field]);
+                logCode.description = logCode.description.replace(`{${field}}`, lastSensorData.value[field]);
             }
         })
     }
-    
     dataToLog.codeId = logCode.id
+    dataToLog.message = logCode.description
     const pushBody = dataToLog.message
     
     dataToLog.sendPush? postPushMessage(dataToLog.userId, pushTitle, pushBody):
