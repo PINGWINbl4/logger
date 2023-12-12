@@ -19,7 +19,6 @@ async function writeToLog(dataToLog, code){
     substringsToChange.forEach(substring =>{
         if (logCode.description.indexOf(`{${substring}}`) && dataToLog[substring] != undefined){
             dataToLog.message = logCode.description.replace(`{${substring}}`, dataToLog[substring]);
-            console.log(logCode.description.replace(`{${substring}}`, dataToLog[substring]))
             console.log(dataToLog.message)
             delete dataToLog[substring]
         }
