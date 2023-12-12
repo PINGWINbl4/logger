@@ -37,7 +37,6 @@ async function writeToLog(dataToLog, code){
         lastSensorDataKeys.forEach(field=>{
             if (logCode.description.indexOf(`{${field}}`)){
                 dataToLog.message = logCode.description.replace(`{${field}}`, lastSensorData.value[field]);
-                dataToLog.message
             }
         })
     }
